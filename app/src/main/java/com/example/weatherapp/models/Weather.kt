@@ -48,4 +48,4 @@ data class Condition (
     //                "day": {
 
 
-)
+//)
