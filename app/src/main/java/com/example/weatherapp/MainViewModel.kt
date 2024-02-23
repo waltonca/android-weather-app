@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
             val weather = APIClient.APIService.getWeather(
                 "0bb6e459a3cb4333be0145722240902", // PUT YOUR KEY HERE
                 coordinates,
-                "3",
+                "5",
                 "no",
                 "no"
             )
