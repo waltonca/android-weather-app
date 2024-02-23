@@ -2,10 +2,13 @@ package com.example.weatherapp.models
 
 import com.google.gson.annotations.SerializedName
 
+
+// the whole json file is a obj(root), we named it as Weather
 data class Weather (
     val current: Current,
-    val location: Location
+    val location: Location,
 
+    //val forecast: Forecast
 )
 
 //data class Location ()
@@ -29,4 +32,20 @@ data class Condition (
     val icon: String
 )
 
-//data class Forecast ()
+//data class Forecast (
+//    array ?
+    // the json can contain: key-value, another object, collection
+    // key-value:"wind_mph": 8.1,
+    // another object: "condition": {
+    //            "text": "Partly cloudy",
+    //            "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+    //            "code": 1003
+    //        },
+    // collection: "forecastday": [
+    //            {
+    //                "date": "2024-02-23",
+    //                "date_epoch": 1708646400,
+    //                "day": {
+
+
+)
