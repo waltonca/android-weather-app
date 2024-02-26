@@ -8,7 +8,7 @@ data class Weather (
     val current: Current,
     val location: Location,
 
-//    val forecast: Forecast
+    val forecast: Forecast
 )
 
 //data class Location ()
@@ -32,7 +32,7 @@ data class Condition (
     val icon: String
 )
 
-//data class Forecast (
+data class Forecast (
 ////    array ?
 ////     the json can contain: key-value, another object, collection
 ////     key-value:"wind_mph": 8.1,
@@ -47,5 +47,14 @@ data class Condition (
 ////                    "date_epoch": 1708646400,
 ////                    "day": {
 //
-//
-//)
+    @SerializedName("forecastday") val forecastDays: List<ForecastDay>
+)
+
+data class ForecastDay (
+    val date: String
+)
+
+data class Day (
+    @SerializedName("maxtemp_c") val maxTemp: Float,
+    @SerializedName("mintemp_c") val minTemp: Float
+)
