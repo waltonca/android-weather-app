@@ -18,6 +18,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.models.ForecastDay
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -43,12 +47,17 @@ fun DisplayDay(forecastDay: ForecastDay){
     val imgUrl = "https:"+ day.condition.icon
     imgUrl.replace("64*64","128*128")
 
+    //Format week day
+    val weekDay = formatWeekDate(date)
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(15.dp)
     ) {
         // Date
-        Text( "${date}")
+        Text( "${weekDay}",
+            modifier = Modifier.width(90.dp))
 
         // Condition
         AsyncImage(
@@ -70,4 +79,23 @@ fun DisplayDay(forecastDay: ForecastDay){
             Text("Wind ${day.windMaxSpeed.roundToInt()}")
         }
     }
+}
+
+fun formatWeekDate(inputDate: String): String {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.CANADA)
+    val date = dateFormat.parse(inputDate)
+    val calendar = Calendar.getInstance()
+    calendar.time = date ?: Date()
+
+    val today = Calendar.getInstance()
+
+    return when {
+        isSameDay(calendar, today) -> "Today"
+        isSameDay(calendar, today.apply { add(Calendar.DAY_OF_YEAR, 1) }) -> "Tomorrow"
+        else -> SimpleDateFormat("E", Locale.US).format(date)
+    }
+}
+fun isSameDay(cal1: Calendar, cal2: Calendar): Boolean {
+    return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+            cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
 }
