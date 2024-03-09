@@ -58,7 +58,9 @@ data class ForecastDay (
 
 data class Day (
     @SerializedName("maxtemp_c") val maxTemp: Float,
-    @SerializedName("mintemp_c") val minTemp: Float
+    @SerializedName("mintemp_c") val minTemp: Float,
+    val condition: Condition,
+    @SerializedName("maxwind_kph") val windMaxSpeed: Float,
 )
 
 data class Hour (
