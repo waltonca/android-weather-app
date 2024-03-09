@@ -17,10 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.weatherapp.MainViewModel
 import kotlin.math.roundToInt
 
 @Composable
-fun HomeWeatherScreen() {
+fun HomeWeatherScreen(mainViewModel: MainViewModel) {
     Text("Current Weather Forecast")
     /*
     val weather by mainViewModel.weatherStateFlow.collectAsState()
