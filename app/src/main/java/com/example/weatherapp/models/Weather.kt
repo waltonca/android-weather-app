@@ -51,7 +51,8 @@ data class Forecast (
 )
 
 data class ForecastDay (
-    val date: String
+    val date: String,
+    val day: Day
 )
 
 data class Day (

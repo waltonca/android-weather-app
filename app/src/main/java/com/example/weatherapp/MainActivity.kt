@@ -131,14 +131,14 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.padding(innerPadding)
             ) {
                 composable(route = "home") {
-                    HomeWeatherScreen()
+                    HomeWeatherScreen(mainViewModel)
                 }
                 composable(route = "hourly") {
-                    HourlyWeatherScreen()
+                    HourlyWeatherScreen(mainViewModel)
                 }
                 composable(route = "daily") {
 
-                    DailyWeatherScreen()
+                    DailyWeatherScreen(mainViewModel)
                 }
             }
         }

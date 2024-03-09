@@ -22,8 +22,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun HomeWeatherScreen(mainViewModel: MainViewModel) {
-    Text("Current Weather Forecast")
-    /*
+
     val weather by mainViewModel.weatherStateFlow.collectAsState()
 
     val currentWeather = weather?.current
@@ -37,22 +36,6 @@ fun HomeWeatherScreen(mainViewModel: MainViewModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-
-            // Update Location Text Field
-//            TextField(
-//                value = textFieldLocation,
-//                onValueChange = { textFieldLocation = it },
-//                label = { Text("Change Location") }
-//            )
-//
-//            Button(
-//                onClick = {
-//                    mainViewModel.updateWeather(textFieldLocation)
-//                }
-//            ){
-//                Text("Update")
-//            }
-
 
             // Weather icon (using Coil)
             val imgUrl = "https://" + currentWeather?.condition?.icon
@@ -80,5 +63,5 @@ fun HomeWeatherScreen(mainViewModel: MainViewModel) {
         }
     }
 
-     */
+
 }
