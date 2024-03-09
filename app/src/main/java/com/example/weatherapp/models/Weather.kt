@@ -64,6 +64,11 @@ data class Day (
 data class Hour (
     val time: String,
     @SerializedName("temp_c") val temp: Float,
-    @SerializedName("time_epoch") val epoch: Long
+    @SerializedName("time_epoch") val epoch: Long,
+    @SerializedName("wind_kph") val windSpeed: Float,
+    @SerializedName("wind_dir") val windDirection: String,
+    @SerializedName("feelslike_c") val feelsLike: Float,
+    val condition: Condition
+
 
 )
