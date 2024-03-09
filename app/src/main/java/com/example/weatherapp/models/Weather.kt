@@ -52,10 +52,16 @@ data class Forecast (
 
 data class ForecastDay (
     val date: String,
-    val day: Day
+    val day: Day,
+    val hour: List<HourItem>
 )
 
 data class Day (
     @SerializedName("maxtemp_c") val maxTemp: Float,
     @SerializedName("mintemp_c") val minTemp: Float
+)
+
+data class HourItem (
+    val time: String,
+    @SerializedName("temp_c") val temp: Float
 )
