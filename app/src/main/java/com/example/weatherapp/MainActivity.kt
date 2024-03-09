@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -27,11 +30,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.weatherapp.screens.DailyWeatherScreen
+import com.example.weatherapp.screens.HomeWeatherScreen
+import com.example.weatherapp.screens.HourlyWeatherScreen
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import kotlin.math.roundToInt
 
@@ -63,18 +74,16 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun DisplayCurrentWeather(){
+
+        // The NavHostController manages the screen navigation
+        val navController: NavHostController = rememberNavController()
+
         //
         // Get weather from ViewModel, and the UI will re-compose when ViewModel changes or weather data is loaded
         //
 
         val weather by mainViewModel.weatherStateFlow.collectAsState()
-
-        val currentWeather = weather?.current
         val location = weather?.location
-
-        // Testing Forecast day
-        val forecastDays = weather?.forecast?.forecastDays
-        Log.i("TESTING","Forecast Days: ${forecastDays?.size}")
 
         //
         // Render UI
@@ -97,57 +106,46 @@ class MainActivity : ComponentActivity() {
                     }
                 )
             },
-        ) { innerPadding ->
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ){
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-
-                    // Update Location Text Field
-                    TextField(
-                        value = textFieldLocation,
-                        onValueChange = { textFieldLocation = it },
-                        label = { Text("Change Location") }
-                    )
-
-                    Button(
-                        onClick = {
-                            mainViewModel.updateWeather(textFieldLocation)
+            bottomBar = {
+                BottomAppBar(
+                    actions = {
+                        IconButton(onClick = { navController.navigate("home") }) {
+                            Icon(
+                                painterResource(id = R.drawable.baseline_wb_sunny_24),
+                                contentDescription = "Home"
+                            )
                         }
-                    ){
-                        Text("Update")
+                        IconButton(onClick = { navController.navigate("hourly") }) {
+                            Icon(
+                                painterResource(id = R.drawable.baseline_access_time_filled_24),
+                                contentDescription = "Hourly"
+                            )
+                        }
+                        IconButton(onClick = { navController.navigate("daily") }) {
+                            Icon(
+                                painterResource(id = R.drawable.ic_android_black_24dp),
+                                contentDescription = "Daily"
+                            )
+                        }
                     }
+                )
+            }
+        ) { innerPadding ->
+            // NavHost will display the correct screen
+            NavHost(
+                navController = navController,
+                startDestination = "home",
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                composable(route = "home") {
+                    HomeWeatherScreen()
+                }
+                composable(route = "hourly") {
+                    HourlyWeatherScreen()
+                }
+                composable(route = "daily") {
 
-
-                    // Weather icon (using Coil)
-                    val imgUrl = "https://" + currentWeather?.condition?.icon
-                    imgUrl.replace("64x64","128x128") // get larger image version
-                    AsyncImage(
-                        model = imgUrl,
-                        contentDescription = "Current weather image",
-                        modifier = Modifier.size(128.dp))
-
-                    // weather condition text
-                    Text(currentWeather?.condition?.text.toString(),
-                        fontSize = 25.sp)
-
-                    // temperature: ex. 5°C
-                    Text("${currentWeather?.temperature?.roundToInt()}°C",
-                        fontSize = 50.sp)
-
-                    // feel like temp
-                    Text("Feels like ${currentWeather?.feelsLike?.roundToInt()}°C",
-                        fontSize = 20.sp)
-
-                    // Wind direction
-                    Text("Wind ${currentWeather?.windDirection} ${currentWeather?.windSpeed?.roundToInt()} kph",
-                        fontSize = 20.sp)
+                    DailyWeatherScreen()
                 }
             }
         }
