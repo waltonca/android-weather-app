@@ -63,5 +63,7 @@ data class Day (
 
 data class Hour (
     val time: String,
-    @SerializedName("temp_c") val temp: Float
+    @SerializedName("temp_c") val temp: Float,
+    @SerializedName("time_epoch") val epoch: Long
+
 )
